@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <!-- 여기서 parameterType은 ?에 사용할 파라미터를 가져오는 것이고 
+ 			resultType은 select할때 무슨 타입을 검색할 것인지 찾는거  ex) select ? <<이부분의 타입을 말함 -->
+ <mapper namespace="Member"> 
+ 	<insert id = "memberJoin" parameterType="member">
+ 		INSERT INTO MEMBERTABLE(MID,MPW,MNAME,MPHONE,MEMAIL,MBIRTH) VALUES
+ 		(#{mid},#{mpw},#{mname},#{mphone},#{memail},#{mbirth})
+ 	</insert>
+ 	
+ 	<select id = "memberlogin" parameterType = "member" resultType="String">
+ 		SELECT MID FROM MEMBERTABLE WHERE MID=#{mid} AND MPW =#{mpw}
+ 	</select>
+ 	
+ 	<select id ="memberList" resultType = "member">
+ 		SELECT * FROM MEMBERTABLE
+ 	</select>
+ 	
+ 	<select id = "memberview" parameterType = "String" resultType = "member">
+ 	 	SELECT * FROM MEMBERTABLE WHERE MID = #{mid}
+ 	</select>
+ 	
+ 	<delete id = "memberdelete" parameterType = "String">
+ 		DELETE FROM MEMBERTABLE WHERE MID = #{mid}
+ 	</delete>
+ 	
+ 	<select id = "memberUpdate" parameterType = "String" resultType = "member">
+ 		SELECT * FROM MEMBERTABLE WHERE MID = #{mid}
+ 	</select>
+ 	
+ 	<update id = "memberUpdateProcess" parameterType = "member">
+ 		UPDATE MEMBERTABLE SET MNAME = #{mname}, MBIRTH = #{mbirth}, MEMAIL = #{memail}, MPHONE = #{mphone} where MID = #{mid}
+ 	</update>
+ 	
+ 	<select id = "idOverlap" parameterType = "String" resultType = "String">
+ 		SELECT MID FROM MEMBERTABLE WHERE MID = #{mid}
+ 	</select>
+ 	
+ 	<select id = "idOnkeyup" parameterType = "String" resultType = "String">
+ 		SELECT MID FROM MEMBERTABLE WHERE MID = #{mid}
+ 	</select>
+ 	
+ 	<insert id = "kakaoMemberJoin" parameterType="member">
+ 		INSERT INTO MEMBERTABLE(MID,MPW,MNAME,MPHONE,MEMAIL,MBIRTH,KAKAOID) VALUES
+ 		(#{mid},#{mpw},#{mname},#{mphone},#{memail},#{mbirth},#{kakaoId})
+ 	</insert>
+ 	
+ 	<insert id = "naverMemberJoin" parameterType = "member">
+		INSERT INTO MEMBERTABLE(MID,MPW,MNAME,MPHONE,MEMAIL,MBIRTH,NAVERID) VALUES
+ 		(#{mid},#{mpw},#{mname},#{mphone},#{memail},#{mbirth},#{naverId}) 	
+ 	</insert>
+ 	
+ 	<select id ="kakaoLogin" parameterType="String" resultType = "String">
+ 		SELECT MID FROM MEMBERTABLE WHERE KAKAOID=#{kakaoId}
+ 	</select>
+ 	
+ 	<select id ="naverLogin" parameterType="String" resultType = "String">
+ 		SELECT MID FROM MEMBERTABLE WHERE NAVERID=#{naverId}
+ 	</select>
+ 	
+ 	<select id = "memberInfo" parameterType = "String" resultType = "member">
+ 		SELECT * FROM MEMBERTABLE WHERE MID = #{bwriter}
+ 	</select>
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

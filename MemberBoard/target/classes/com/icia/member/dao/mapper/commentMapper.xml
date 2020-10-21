@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <!-- 여기서 parameterType은 ?에 사용할 파라미터를 가져오는 것이고 
+ 			resultType은 select할때 무슨 타입을 검색할 것인지 찾는거  ex) select ? <<이부분의 타입을 말함 -->
+ <mapper namespace="Comment"> 
+	<insert id = "commentWrite" parameterType = "comment">
+ 		INSERT INTO COMMENTTABLE(CNUMBER, CBNUMBER, CWRITER, CCONTENTS) 
+ 			VALUES(cnumber_seq.NEXTVAL,#{cbnumber},#{cwriter},#{ccontents})
+ 	</insert>
+
+	<select id = "commentList" parameterType = "int" resultType = "comment">
+ 		SELECT * FROM COMMENTTABLE WHERE CBNUMBER = #{cbnumber}
+ 	</select>
+ 	
+ 	<select id="commentView" parameterType = "int" resultType = "comment">
+		SELECT * FROM COMMENTTABLE WHERE CBNUMBER = #{cbnumber}
+ 	</select>
+ 	
+ 	<delete id= "commentDelete" parameterType = "int">
+ 		DELETE FROM COMMENTTABLE WHERE CNUMBER = #{cnumber} 
+ 	</delete>
+ 	
+ 	<select id = "commentList2" parameterType = "int" resultType = "comment">
+ 		SELECT * FROM COMMENTTABLE WHERE CBNUMBER = #{cbnumber}
+ 	</select>
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

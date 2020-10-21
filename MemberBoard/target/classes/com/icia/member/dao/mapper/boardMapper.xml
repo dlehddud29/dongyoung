@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <!-- 여기서 parameterType은 ?에 사용할 파라미터를 가져오는 것이고 
+ 			resultType은 select할때 무슨 타입을 검색할 것인지 찾는거  ex) select ? <<이부분의 타입을 말함 -->
+ <mapper namespace="Board"> 
+	<select id = "boardList" resultType = "board">
+		SELECT * FROM BOARDTABLE
+	</select>
+	
+	<insert id = "boardWritefile" parameterType = "board">
+		INSERT INTO BOARDTABLE(BNUMBER, BWRITER, BTITLE, BCONTENTS, BDATE, BHITS, bfilename)
+		 VALUES(seq_bnumber.nextval,#{bwriter},#{btitle},#{bcontents},TO_CHAR(SYSDATE, 'YYYY-MM-DAY HH24:MI:SS'),0,#{bfilename})
+	</insert>
+	
+	<select id = "boardView" parameterType = "int" resultType = "board">
+		SELECT * FROM BOARDTABLE WHERE BNUMBER = #{bnumber}
+	</select>
+	
+	<select id = "boardListCount" resultType = "int">
+ 		SELECT COUNT(BNUMBER) FROM BOARDTABLE
+ 	</select>
+ 	
+ 	<select id = "boardListPaging" parameterType = "page" resultType = "board" >
+ 		SELECT * FROM (SELECT B.*, ROW_NUMBER() OVER(ORDER BY BNUMBER DESC) 
+ 		AS RN FROM BOARDTABLE B) WHERE RN BETWEEN #{startRow} AND #{endRow} 
+ 	</select>
+ 	
+ 	<select id = "boardUpdate" parameterType = "int" resultType = "board">
+ 		SELECT * FROM BOARDTABLE WHERE BNUMBER = #{bnumber}
+ 	</select>
+ 	
+	<update id = "boardUpdateProcess" parameterType = "board">
+		UPDATE BOARDTABLE SET BTITLE = #{btitle}, bcontents = #{bcontents}, bfilename = #{bfilename}  WHERE bnumber = #{bnumber} 
+	</update>
+	
+	 <select id = "boardSearch" resultType = "board" parameterType = "java.util.HashMap">
+ 		SELECT * FROM BOARDTABLE
+ 			<include refid = "search"></include>
+ 	</select>
+ 	
+ 	<sql id = "search">
+ 		<choose>
+ 			<when test = "searchtype == 'searchtitle'">
+ 				WHERE BTITLE LIKE '%'||#{keyword}||'%'
+ 			</when>
+ 			<when test = "searchtype == 'searchwriter'">
+ 				WHERE BWRITER LIKE '%'||#{keyword}||'%'
+ 			</when>
+ 		</choose>
+ 	</sql>
+ 	
+ 	<update id = "Hits" parameterType = "int">
+ 		UPDATE BOARDTABLE SET BHITS = BHITS + 1 WHERE BNUMBER = #{bnumber}
+ 	</update>
+ 	
+ 	<delete id="boardDeleteWriter" parameterType = "int">
+ 		 DELETE FROM BOARDTABLE WHERE BNUMBER = #{bnumber}
+ 	</delete>
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
